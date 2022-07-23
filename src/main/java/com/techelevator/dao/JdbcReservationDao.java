@@ -53,7 +53,7 @@ public class JdbcReservationDao implements ReservationDao {
         List<Reservation> reservationsNextThirty = new ArrayList<>();
         LocalDate localDate = LocalDate.now();
         LocalDate thirtyOut = localDate.plusDays(30);
-        String sql = "SELECT * FROM reservation r JOIN campground c ON c.park_id = r.park_id WHERE park_id = ? AND from_date BETWEEN ? AND ?;";
+        String sql = "SELECT * FROM reservation r JOIN site s ON s.site_id = r.site_id JOIN campground c ON c.campground_id = s.campground_id WHERE c.park_id = ? AND r.from_date BETWEEN ? AND ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, parkId, localDate, thirtyOut);
         while (result.next()) {
             reservationsNextThirty.add(mapRowToReservation(result));
